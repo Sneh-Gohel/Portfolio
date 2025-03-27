@@ -5,15 +5,8 @@
     box-sizing: border-box;
 }
 
-.loader {
-    overflow: hidden;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: #f1efe6;
+body {
+    overflow-x: hidden; /* Prevent horizontal scrollbar */
 }
 
 .loader-layer {
@@ -21,7 +14,7 @@
     width: 100%;
     height: 100%;
     transform: translateY(100%);
-    animation: loaderSlide 0.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    animation: loaderSlide 0.3s cubic-bezier(0.77, 0, 0.175, 1) forwards;
 }
 
 .loader-layer-1 {
@@ -31,12 +24,13 @@
 
 .loader-layer-2 {
     background-color: #f1efe6;
-    animation-delay: 0.2s;
+    animation-delay: 0.3s;
 }
 
 .loader-layer-3 {
     background-image: linear-gradient(to right, #c6bba5, #c0b8a1);
     animation-delay: 0.3s;
+    animation-duration: 0.5s;
 }
 
 /* Loader Animation */
@@ -46,17 +40,21 @@
     }
 }
 
+.landingPageOuterContainer {
+    position: absolute;
+    overflow: hidden;
+    z-index: 0;
+    height: 100vh;
+    width: 100%;
+}
+
 /* Landing Page */
 .landingPage {
     height: 100vh;
     width: 100%;
-    overflow: hidden;
-    position: absolute;
+    position: relative; /* Change to relative to allow absolute positioning of children */
     background-image: linear-gradient(to right, #c6bba5, #c0b8a1);
     z-index: 1;
-    transform: translateY(100%);
-    animation: loaderSlide 0.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-    animation-delay: 0.4s;
 }
 
 /* Background Image Animation */
@@ -66,29 +64,63 @@
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Prevent tiling */
     height: 100%;
-    width: 100%; /* Start off-screen at the bottom */
+    width: 100%;
     position: absolute;
     z-index: 1;
     transform: translateY(100%);
-    animation: loaderSlide 0.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-    animation-delay: 0.4s;
+    animation: contentSlide 0.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    animation-delay: 0.3s;
+}
+
+@keyframes contentSlide {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+        scale: 1;
+    }
+}
+
+.hidder{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 2;
+    background-color: #c0b8a1ad;
+    opacity: 0;
+    animation: Fadein 0.5s ease forwards;
+    animation-delay: 0.8s;
+}
+
+@keyframes Fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+    
 }
 
 /* Navigation Bar Styles */
-.landingPage .navigationBar {
+.landingPage .mainContent .navigationBar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    position: absolute; /* Keep it fixed at the top */
+    position: relative; /* Keep it fixed at the top */
     top: 0;
     width: 100%;
     z-index: 2; /* Ensure it stays above the background animation */
     opacity: 0; /* Initially hidden */
-    animation: fadeIn 0.7s ease forwards;
+    animation: fadeInAndComingFromUp 0.7s ease forwards; /* Animation for fading in and coming from the top */
+    animation-delay: 1.4s; /* Your timing preserved */
 }
 
-@keyframes fadeIn {
+@keyframes fadeInAndComingFromUp {
     from {
         opacity: 0; /* Hidden initially */
         transform: translateY(-20px); /* Slight upward movement for effect */
@@ -100,21 +132,154 @@
 }
 
 /* Logo Styles */
-.landingPage .navigationBar .logo {
+.landingPage .mainContent .navigationBar .logo {
     padding-left: 5px;
 }
 
-.landingPage .navigationBar .logo img {
+.landingPage .mainContent .navigationBar .logo img {
     width: 4rem;
+    opacity: 0; /* Initially hidden */
+    transform: rotate(-180deg); /* Start rotated */
+    animation: logoSpin 0.7s ease forwards; /* Animation for logo */
+    animation-delay: 1.4s; /* Your timing preserved */
+}
+
+@keyframes logoSpin {
+    from {
+        opacity: 0;
+        transform: rotate(-180deg) scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+    }
 }
 
 /* Navigation Links Styles */
-.landingPage .navigationBar .navLinks {
+.landingPage .mainContent .navigationBar .navLinks {
     display: flex;
 }
 
-.landingPage .navigationBar .navLinks div {
+/* Navigation Links Styles */
+.landingPage .mainContent .navigationBar .navLinks div {
     padding: 20px;
     font-size: 1.2rem;
     font-weight: 500;
+    opacity: 0; /* Initially hidden */
+    transform: translateY(10px) rotateX(45deg); /* Start slightly above and rotated */
+    
+    /* Add animation for links sliding in with a delay based on their order */
+    animation: linkAppear 0.5s ease forwards; 
 }
+
+/* Animation for Navigation Links */
+@keyframes linkAppear {
+    from {
+        opacity: 0;
+        transform: translateY(10px) rotateX(45deg) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg) scale(1);
+    }
+}
+
+/* Staggering Animation Delay for Links (Your timings preserved) */
+.landingPage .mainContent .navigationBar .navLinks div:nth-child(1) { animation-delay: 1.5s; } /* Delay for first link */
+.landingPage .mainContent .navigationBar .navLinks div:nth-child(2) { animation-delay: 1.8s; } /* Delay for second link */
+.landingPage .mainContent .navigationBar .navLinks div:nth-child(3) { animation-delay: 2.1s; } /* Delay for third link */
+.landingPage .mainContent .navigationBar .navLinks div:nth-child(4) { animation-delay: 2.4s; } /* Delay for fourth link */
+
+/* Hover Effect */
+.landingPage .mainContent .navigationBar .navLinks div:hover {
+    color: #6f7a74; /* Change text color on hover */
+    text-shadow: 0px 4px 8px rgba(111, 122, 116, 0.7), 
+                 -4px -4px rgba(111, 122, 116, 0.5); /* Fancy glow effect */
+    transform: scale(1.1); /* Slightly grow the text on hover */
+    transition: all 0.3s ease; /* Smooth transition for all properties */
+}
+
+.landingPage .mainContent{
+    display: flex;
+    flex-direction: column;
+}
+
+.landingPage .mainContent .contentContainer {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    padding : 20px;
+}
+
+.landingPage .mainContent .contentContainer .photo{
+    width: 50%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Animation for photoFrame */
+.landingPage .mainContent .contentContainer .photo .photoFrame {
+    width: 332px;
+    height: 433px;
+    background-color: #fdf9f0;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(111, 122, 116, 0.7), 
+                 -4px -4px rgba(111, 122, 116, 0.5);
+    opacity: 0; /* Initially hidden */
+    transform: scale(0.8) rotate(-10deg); /* Start smaller and slightly rotated */
+    animation: photoFrameEntrance 1s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    animation-delay: 1.5s; /* Delay for entrance */
+}
+
+@keyframes photoFrameEntrance {
+    from {
+        opacity: 0;
+        transform: scale(0.8) rotate(-10deg); /* Initial state */
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg); /* Final state */
+    }
+}
+
+/* Animation for image inside the photoFrame */
+.landingPage .mainContent .contentContainer .photo .photoFrame .image img {
+    width: 302px;
+    height: 403px;
+    size: cover;
+    margin: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(111, 122, 116, 0.7), 
+                 -4px -4px rgba(111, 122, 116, 0.5);
+    opacity: 0; /* Initially hidden */
+    transform: scale(1.2) rotateY(-90deg); /* Start larger and rotated in Y-axis */
+    animation: imageEntrance 1s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    animation-delay: 1.7s; /* Slightly delayed compared to photoFrame */
+}
+
+@keyframes imageEntrance {
+    from {
+        opacity: 0;
+        transform: scale(1.2) rotateY(-90deg); /* Initial state */
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotateY(0deg); /* Final state */
+    }
+}
+
+
+.landingPage .mainContent .contentContainer .info{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
