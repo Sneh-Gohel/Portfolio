@@ -4,11 +4,11 @@
     padding: 0;
     box-sizing: border-box;
 }
-
-body {
-    overflow-x: hidden; /* Prevent horizontal scrollbar */
+body{
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
 }
-
 .loader-layer {
     position: absolute;
     width: 100%;
@@ -41,7 +41,7 @@ body {
 }
 
 .landingPageOuterContainer {
-    position: absolute;
+    position: relative;
     overflow: hidden;
     z-index: 0;
     height: 100vh;
@@ -50,11 +50,11 @@ body {
 
 /* Landing Page */
 .landingPage {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
     height: 100vh;
     width: 100%;
-    position: relative; /* Change to relative to allow absolute positioning of children */
-    background-image: linear-gradient(to right, #c6bba5, #c0b8a1);
-    z-index: 1;
 }
 
 /* Background Image Animation */
@@ -65,7 +65,8 @@ body {
     background-repeat: no-repeat; /* Prevent tiling */
     height: 100%;
     width: 100%;
-    position: fixed;
+    position: absolute;
+    z-index: 0;
     z-index: 1;
     transform: translateY(100%);
     animation: contentSlide 0.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
@@ -147,10 +148,10 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    position: relative; /* Keep it fixed at the top */
+    position: fixed; /* Keep it fixed at the top */
     top: 0;
     width: 100%;
-    z-index: 2; /* Ensure it stays above the background animation */
+    z-index: 10; /* Ensure it stays above the background animation */
     opacity: 0; /* Initially hidden */
     animation: fadeInAndComingFromUp 0.7s ease forwards; /* Animation for fading in and coming from the top */
     animation-delay: 1.4s; /* Your timing preserved */
@@ -540,12 +541,84 @@ body {
     height: 40px;
     background: linear-gradient(to top left, #6f7a74, #c1b9a1);
     border-radius: 50%;
-    position: fixed;
+    position: fixed; /* Changed to fixed */
     pointer-events: none;
     z-index: 9999;
-    transition: transform 0.1s ease-out;
-    display: none;
-    mix-blend-mode: multiply; /* Creates interaction effect with text */
-    opacity: 0.7; /* Makes it slightly transparent */
-    filter: blur(1px); /* Softens the edges */
+    transition: 
+        transform 0.1s ease-out,
+        width 0.3s ease,
+        height 0.3s ease;
+    mix-blend-mode: multiply;
+    opacity: 0.7;
+    filter: blur(1px);
+    display: none; /* Hidden by default */
+    transform: translate(-50%, -50%); /* Center the circle on cursor */
+    will-change: transform; /* Performance optimization */
+}
+
+.quotes{
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    background-color: #6f7a74;
+    color: #8b5e3c;
+}
+
+.quotes .mainContent{
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.quotes .mainContent .styling{
+    height: 30%;
+    font-size: 4.5rem;
+    color: #5a4a3b;
+}
+
+.quotes .mainContent .firstRow{
+    font-family: "Roboto Slab", serif;
+    position: relative;
+    z-index: 1;
+    left: 30vh;
+    top: 20px;
+    color: #2c2c2c;
+}
+
+.quotes .mainContent .secondRow{
+    font-family: "Allura", serif;
+    position: relative;
+    z-index: 2;
+    left: 58vh;
+    bottom: 10px;
+    font-size: 4.9rem;
+}
+
+.quotes .mainContent .thirdRow{
+    font-family: "Roboto Slab", serif;
+    position: relative;
+    z-index: 3;
+    left: 95vh;
+    bottom: 30px;
+    color: #2c2c2c;
+}
+
+.quotes .mainContent .fourthRow{
+    font-family: "Roboto Slab", serif;
+    position: relative;
+    z-index: 4;
+    left: 30vh;
+    bottom: 50px;
+    color: #2c2c2c;
+}
+
+.quotes .mainContent .fifthRow{
+    font-family: "Allura", serif;
+    position: relative;
+    z-index: 2;
+    left: 80vh;
+    bottom: 80px;
+    font-size: 4.9rem;
 }
