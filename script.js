@@ -1,11 +1,60 @@
+function initMagicLine() {
+    const navLinks = document.querySelector('.navLinks');
+    const navItems = document.querySelectorAll('.navLinks div');
+    
+    // Create magic line
+    const magicLine = document.createElement('div');
+    magicLine.id = 'magic-line';
+    navLinks.appendChild(magicLine);
+    
+    // Initialize after animations
+    setTimeout(() => {
+        navLinks.classList.add('visible');
+        updateMagicLine(navItems[0]);
+    }, 2500);
+    
+    // Hover handler
+    navItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            updateMagicLine(item);
+        });
+        
+        item.addEventListener('mouseleave', () => {
+            updateMagicLine(document.querySelector('.navLinks div:first-child'));
+        });
+    });
+    
+    // Update position
+    function updateMagicLine(element) {
+        const magicLine = document.getElementById('magic-line');
+        if (!magicLine || !element) return;
+        
+        const itemRect = element.getBoundingClientRect();
+        const navRect = navLinks.getBoundingClientRect();
+        
+        magicLine.style.width = `${itemRect.width}px`;
+        magicLine.style.left = `${itemRect.left - navRect.left}px`;
+    }
+    
+    // Handle resize
+    window.addEventListener('resize', () => {
+        updateMagicLine(document.querySelector('.navLinks div:first-child'));
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Initialize Cursor
     const circle = document.getElementById('circle');
-    const interactiveElements = document.querySelectorAll('.navLinks div, .name span, .subTitle');
+    const interactiveElements = document.querySelectorAll('.navLinks div, .name span, .subTitle, .logo');
+    initMagicLine();
     
+    // Position circle at center initially
+    circle.style.transform = `translate3d(${window.innerWidth/2}px, ${window.innerHeight/2}px, 0)`;
+    circle.style.display = 'block';
+
     let kinet = new Kinet({
-        acceleration: 0.06,
-        friction: 0.25,
+        acceleration: 0.06,  // Slightly higher for quicker response
+        friction: 0.25,      // Lower friction for tighter follow
         names: ["x", "y"],
     });
 
@@ -23,8 +72,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 const scale = 1 + (1 - distance/100) * 0.2;
                 el.style.transform = `scale(${scale})`;
                 el.style.transition = 'transform 0.2s ease';
+                
+                // Special effect for logo
+                if (el.classList.contains('logo')) {
+                    el.style.transform += ` rotate(${5 + (1 - distance/100) * 10}deg)`;
+                    el.style.filter = `drop-shadow(0 ${(1 - distance/100) * 6}px ${(1 - distance/100) * 12}px rgba(111, 122, 116, 0.3))`;
+                }
             } else {
                 el.style.transform = 'scale(1)';
+                if (el.classList.contains('logo')) {
+                    el.style.filter = '';
+                }
             }
         });
 
@@ -67,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
             image.style.filter = '';
         }
     }
+
     kinet.on('tick', function(instances) {
         const x = instances.x.current + window.innerWidth/2;
         const y = instances.y.current + window.innerHeight/2;
@@ -81,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         kinet.animate('x', event.clientX - window.innerWidth/2);
         kinet.animate('y', event.clientY - window.innerHeight/2);
     });
+
 
     // 2. Create Particles
     function createParticles() {
@@ -143,7 +203,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 4. Sequence all animations
     setTimeout(() => {
-        if (circle) circle.style.display = 'block';
         createParticles();
     }, 3500);
 
@@ -157,5 +216,54 @@ document.addEventListener('DOMContentLoaded', () => {
             createParticles();
         }
     });
-    
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Get all sections
+    const sections = document.querySelectorAll('.section');
+    let currentSection = 0;
+
+    // Function to scroll to a specific section
+    function scrollToSection(index) {
+        sections[index].scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+        currentSection = index;
+    }
+
+    // Use wheel event to detect scroll
+    window.addEventListener('wheel', (e) => {
+        if (e.deltaY > 0 && currentSection < sections.length - 1) {
+            e.preventDefault();
+            scrollToSection(currentSection + 1);
+        } else if (e.deltaY < 0 && currentSection > 0) {
+            e.preventDefault();
+            scrollToSection(currentSection - 1);
+        }
+    }, {
+        passive: false
+    });
+
+    // Touch events for mobile devices
+    let touchStartY = 0;
+
+    window.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches[0].clientY;
+    });
+
+    window.addEventListener('touchend', (e) => {
+        const touchEndY = e.changedTouches[0].clientY;
+        const deltaY = touchEndY - touchStartY;
+
+        if (deltaY < 0 && currentSection < sections.length - 1) {
+            e.preventDefault();
+            scrollToSection(currentSection + 1);
+        } else if (deltaY > 0 && currentSection > 0) {
+            e.preventDefault();
+            scrollToSection(currentSection - 1);
+        }
+    }, {
+        passive: false
+    });
 });

@@ -65,7 +65,7 @@ body {
     background-repeat: no-repeat; /* Prevent tiling */
     height: 100%;
     width: 100%;
-    position: absolute;
+    position: fixed;
     z-index: 1;
     transform: translateY(100%);
     animation: contentSlide 0.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
@@ -171,9 +171,17 @@ body {
 /* Logo Styles */
 .landingPage .mainContent .navigationBar .logo {
     padding-left: 5px;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    display: inline-block;
+}
+
+.landingPage .mainContent .navigationBar .logo:hover {
+    transform: rotate(15deg) scale(1.1);
+    filter: drop-shadow(0 4px 8px rgba(111, 122, 116, 0.3));
 }
 
 .landingPage .mainContent .navigationBar .logo img {
+    transition: inherit;
     width: 4rem;
     opacity: 0; /* Initially hidden */
     transform: rotate(-180deg); /* Start rotated */
@@ -192,16 +200,62 @@ body {
     }
 }
 
+.landingPage .mainContent .navigationBar .logo:hover img {
+    cursor: pointer;
+    transform: rotate(-5deg); /* Counter-rotate the image */
+}
+
 /* Navigation Links Styles */
 .landingPage .mainContent .navigationBar .navLinks {
+    position: relative;
     display: flex;
+    gap: 0rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.navLinks::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+#magic-line {
+    position: absolute;
+    height: 2px;
+    bottom: -5px;
+    background: #6f7a74;
+    /* transition: all 0.3s ease; */
+    transition: 
+        left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+        width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55) 0.1s;
+    transform-origin: left center;
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+    /* Force rendering layer */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    /* Prevent box-shape */
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navLinks.visible #magic-line {
+    opacity: 1;
 }
 
 /* Navigation Links Styles */
 .landingPage .mainContent .navigationBar .navLinks div {
-    padding: 20px;
+    position: relative;
+    padding: 0.5rem 1rem;
     font-size: 1.2rem;
-    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    z-index: 2;
     opacity: 0; /* Initially hidden */
     transform: translateY(10px) rotateX(45deg); /* Start slightly above and rotated */
     
@@ -229,12 +283,60 @@ body {
 
 /* Hover Effect */
 .landingPage .mainContent .navigationBar .navLinks div:hover {
-    color: #6f7a74; /* Change text color on hover */
-    text-shadow: 0px 4px 8px rgba(111, 122, 116, 0.7), 
-                 -4px -4px rgba(111, 122, 116, 0.5); /* Fancy glow effect */
-    transform: scale(1.1); /* Slightly grow the text on hover */
-    transition: all 0.3s ease; /* Smooth transition for all properties */
+    color: #6f7a74;
+    text-shadow: none;
+    transform: none;
 }
+
+.landingPage .mainContent .navigationBar .navLinks .position{
+    position: relative;
+    bottom: 6px;
+}
+
+.landingPage .mainContent .navigationBar .navLinks .ham {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 400ms;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .landingPage .mainContent .navigationBar .navLinks .hamRotate.active {
+    transform: rotate(45deg);
+  }
+  .landingPage .mainContent .navigationBar .navLinks .hamRotate180.active {
+    transform: rotate(180deg);
+  }
+  .landingPage .mainContent .navigationBar .navLinks .line {
+    fill:none;
+    transition: stroke-dasharray 400ms, stroke-dashoffset 400ms;
+    stroke:#000;
+    stroke-width:2.5;
+    stroke-linecap:round;
+  }
+  .landingPage .mainContent .navigationBar .navLinks .ham8 .top {
+    stroke-dasharray: 40 160;
+  }
+  .landingPage .mainContent .navigationBar .navLinks .ham8 .middle {
+    stroke-dasharray: 40 142;
+    transform-origin: 50%;
+    transition: transform 400ms;
+  }
+  .landingPage .mainContent .navigationBar .navLinks .ham8 .bottom {
+    stroke-dasharray: 40 85;
+    transform-origin: 50%;
+    transition: transform 400ms, stroke-dashoffset 400ms;
+  }
+  .landingPage .mainContent .navigationBar .navLinks .ham8.active .top {
+    stroke-dashoffset: -64px;
+  }
+  .landingPage .mainContent .navigationBar .navLinks .ham8.active .middle {
+    transform: rotate(90deg);
+  }
+  .landingPage .mainContent .navigationBar .navLinks .ham8.active .bottom {
+    stroke-dashoffset: -64px;
+  }
 
 .landingPage .mainContent{
     display: flex;
