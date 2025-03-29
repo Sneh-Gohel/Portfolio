@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Cursor interaction effect
     function handleHoverEffect(x, y) {
+        // Text interactions
         interactiveElements.forEach(el => {
             const rect = el.getBoundingClientRect();
             const distance = Math.sqrt(
@@ -26,8 +27,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 el.style.transform = 'scale(1)';
             }
         });
-    }
 
+        // Image 3D effect
+        const imageContainer = document.querySelector('.photoFrame');
+        const image = document.querySelector('.photoFrame .image');
+        if (!imageContainer || !image) return;
+        
+        const rect = imageContainer.getBoundingClientRect();
+        const centerX = rect.left + rect.width/2;
+        const centerY = rect.top + rect.height/2;
+        const relX = x - centerX;
+        const relY = y - centerY;
+        
+        // Only apply effects when cursor is near the image
+        const distanceToImage = Math.sqrt(relX*relX + relY*relY);
+        if (distanceToImage < 300) {
+            const rotateX = (relY / rect.height * -10).toFixed(2);
+            const rotateY = (relX / rect.width * 10).toFixed(2);
+            const translateZ = Math.min(distanceToImage * 0.1, 20);
+            
+            imageContainer.style.transform = `
+                rotateX(${rotateX}deg)
+                rotateY(${rotateY}deg)
+            `;
+            
+            image.style.transform = `
+                translateZ(${translateZ}px)
+                scale(${1 + translateZ * 0.002})
+            `;
+            
+            image.style.setProperty('--x', `${(x - rect.left)}px`);
+            image.style.setProperty('--y', `${(y - rect.top)}px`);
+            
+            image.style.filter = `drop-shadow(0 0 ${Math.min(distanceToImage/20, 10)}px rgba(111, 122, 116, 0.3))`;
+        } else {
+            // Reset when cursor is far
+            imageContainer.style.transform = '';
+            image.style.transform = '';
+            image.style.filter = '';
+        }
+    }
     kinet.on('tick', function(instances) {
         const x = instances.x.current + window.innerWidth/2;
         const y = instances.y.current + window.innerHeight/2;
@@ -46,6 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Create Particles
     function createParticles() {
         const particlesContainer = document.querySelector('.bottom-particles');
+        if (!particlesContainer) return;
+        
         const particleCount = 80;
         
         for (let i = 0; i < particleCount; i++) {
@@ -74,7 +115,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Typed.js Initialization
     function initTyped() {
-        new Typed('.subTitle', {
+        const subtitleElement = document.querySelector('.subTitle');
+        if (!subtitleElement) return;
+        
+        new Typed(subtitleElement, {
             strings: [
                 'Full Stack Flutter Developer',
                 'Website Developer',
@@ -99,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 4. Sequence all animations
     setTimeout(() => {
-        circle.style.display = 'block';
+        if (circle) circle.style.display = 'block';
         createParticles();
     }, 3500);
 
@@ -107,7 +151,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 5. Handle resize
     window.addEventListener('resize', () => {
-        document.querySelectorAll('.bubble').forEach(bubble => bubble.remove());
-        createParticles();
+        const bubbles = document.querySelectorAll('.bubble');
+        if (bubbles.length) {
+            bubbles.forEach(bubble => bubble.remove());
+            createParticles();
+        }
     });
+    
 });
