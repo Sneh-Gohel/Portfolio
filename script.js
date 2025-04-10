@@ -407,3 +407,125 @@ document.addEventListener('DOMContentLoaded', () => {
         passive: false
     });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const aboutSection = document.getElementById("about");
+    const rows = document.querySelectorAll(".styling");
+
+    window.addEventListener("scroll", () => {
+        const sectionTop = aboutSection.offsetTop;
+        const sectionHeight = aboutSection.offsetHeight;
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+
+        // Calculate when the about section is in view
+        const sectionStart = sectionTop - windowHeight;
+        const sectionEnd = sectionTop + sectionHeight;
+
+        // Ensure we only animate when within the about section
+        if (scrollY > sectionStart && scrollY < sectionEnd) {
+            const scrollPositionInSection = scrollY - sectionStart; // Current scroll within the section
+            const maxScrollInSection = sectionEnd - sectionStart;     // Max scroll distance within the section
+            const scrollProgress = scrollPositionInSection / maxScrollInSection; // Normalized scroll progress
+
+            rows.forEach(row => {
+                const direction = row.dataset.direction;
+                const speed = parseFloat(row.dataset.speed) || 1; // Get speed multiplier from data attribute
+                const movement = scrollProgress * 70 * speed; // Reduced movement range
+
+                if (direction === "left") {
+                    row.style.transform = `translateX(-${movement}px)`;
+                } else if (direction === "right") {
+                    row.style.transform = `translateX(${movement}px)`;
+                }
+            });
+        } else {
+            // Reset the position when the user scrolls out of the section
+            rows.forEach(row => {
+                row.style.transform = 'translateX(0)';
+            });
+        }
+    });
+});
+
+// Add this to your script.js
+document.addEventListener('DOMContentLoaded', () => {
+    // Interactive background effect
+    const interactiveBg = document.querySelector('.interactive-bg');
+    const aboutSection = document.querySelector('.about-section');
+    const portrait = document.querySelector('.portrait');
+
+    aboutSection.addEventListener('mousemove', (e) => {
+        const x = e.clientX / window.innerWidth;
+        const y = e.clientY / window.innerHeight;
+        
+        // Move gradient positions
+        interactiveBg.style.backgroundPosition = 
+            `${x * 20}% ${y * 20}%, ${(1 - x) * 20}% ${(1 - y) * 20}%`;
+        
+        // Slight parallax effect on portrait
+        portrait.style.transform = `translate(${x * 10 - 5}px, ${y * 10 - 5}px)`;
+    });
+
+    // Reset position when mouse leaves
+    aboutSection.addEventListener('mouseleave', () => {
+        interactiveBg.style.backgroundPosition = 'center center';
+        portrait.style.transform = 'translate(0, 0)';
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const bg = document.querySelector('.interactive-bg');
+    const leafCount = 12;
+    
+    for (let i = 0; i < leafCount; i++) {
+        const leaf = document.createElement('div');
+        leaf.className = 'leaf-particle';
+        
+        const size = Math.random() * 20 + 10;
+        const delay = Math.random() * 5;
+        const duration = Math.random() * 10 + 15;
+        const left = Math.random() * 100;
+        const leafDelay = 1.2 + (i * 0.1);
+        
+        leaf.style.cssText = `
+            width: ${size}px;
+            height: ${size}px;
+            left: ${left}%;
+            animation-delay: ${delay}s;
+            opacity: 0; /* Start hidden */
+        `;
+        
+        // Only add fadeIn animation when section is visible
+        if (document.querySelector('.about-section').classList.contains('visible')) {
+            leaf.style.animation = `
+                float-leaf ${duration}s linear infinite,
+                fadeIn 1s ease-out ${leafDelay}s forwards
+            `;
+        }
+        
+        bg.appendChild(leaf);
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const aboutSection = document.querySelector('.about-section');
+    
+    // Create Intersection Observer
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Add 'visible' class when section comes into view
+                entry.target.classList.add('visible');
+                
+                // Remove observer after triggering once
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 }); // Trigger when 30% of element is visible
+
+    // Start observing the about section
+    if (aboutSection) {
+        observer.observe(aboutSection);
+    }
+});
