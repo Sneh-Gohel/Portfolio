@@ -1,52 +1,192 @@
-function initMagicLine() {
-    const navLinks = document.querySelector('.navLinks');
-    const navItems = document.querySelectorAll('.navLinks div');
-    
-    // Create magic line
+document.addEventListener('DOMContentLoaded', () => {
+    // Get all sections and nav links
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.navLinks div');
     const magicLine = document.createElement('div');
     magicLine.id = 'magic-line';
-    navLinks.appendChild(magicLine);
+    document.querySelector('.navLinks').appendChild(magicLine);
     
-    // Initialize after animations
-    setTimeout(() => {
-        navLinks.classList.add('visible');
-        updateMagicLine(navItems[0]);
-    }, 2500);
+    let currentVisibleSection = 0;
+    let isHovering = false;
+    let hoveredItem = null;
     
-    // Hover handler
-    navItems.forEach(item => {
-        item.addEventListener('mouseenter', () => {
-            updateMagicLine(item);
-        });
+    // Section data with colors
+    const sectionData = {
+        0: { 
+            name: 'Home',
+            link: document.querySelector('.navLinks .home'),
+            color: '#6f7a74',
+            textColor: '#2c2c2c'
+        },
+        1: { 
+            name: 'About',
+            link: document.querySelector('.navLinks .about'),
+            color: '#8b5e3c',
+            textColor: '#5a4a3b'
+        },
+        2: { 
+            name: 'Work',
+            link: document.querySelector('.navLinks .work'),
+            color: '#ae6d4f',
+            textColor: '#5a4a3b'
+        },
+        3: { 
+            name: 'Contact',
+            link: document.querySelector('.navLinks .contact'),
+            color: '#5a4a3b',
+            textColor: '#2c2c2c'
+        }
+    };
+
+    // Initialize magic line
+    function initMagicLine() {
+        magicLine.style.position = 'absolute';
+        magicLine.style.height = '2px';
+        magicLine.style.bottom = '0';
+        magicLine.style.backgroundColor = sectionData[0].color;
+        magicLine.style.transition = 'all 0.3s ease';
+        magicLine.style.opacity = '0';
         
-        item.addEventListener('mouseleave', () => {
-            updateMagicLine(document.querySelector('.navLinks div:first-child'));
-        });
-    });
-    
-    // Update position
-    function updateMagicLine(element) {
-        const magicLine = document.getElementById('magic-line');
-        if (!magicLine || !element) return;
+        setTimeout(() => {
+            magicLine.style.opacity = '1';
+            updateMagicLinePosition(sectionData[0].link);
+        }, 2500);
+    }
+
+    // Update magic line position
+    function updateMagicLinePosition(element) {
+        if (!element) return;
         
         const itemRect = element.getBoundingClientRect();
-        const navRect = navLinks.getBoundingClientRect();
+        const navRect = document.querySelector('.navLinks').getBoundingClientRect();
         
         magicLine.style.width = `${itemRect.width}px`;
         magicLine.style.left = `${itemRect.left - navRect.left}px`;
+        magicLine.style.backgroundColor = sectionData[currentVisibleSection].color;
     }
-    
+
+    // Function to update the active nav link and colors
+    function updateActiveNav(index) {
+        // Remove active class from all links
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            link.style.color = '';
+        });
+        
+        // Add active class and colors to current link
+        if (sectionData[index]) {
+            const currentSection = sectionData[index];
+            currentSection.link.classList.add('active');
+            currentSection.link.style.color = currentSection.color;
+            
+            // Update magic line if not hovering
+            if (!isHovering) {
+                updateMagicLinePosition(currentSection.link);
+            }
+            
+            // Update all nav links text color to match section
+            navLinks.forEach(link => {
+                link.style.color = currentSection.textColor;
+            });
+            
+            // Active link gets the accent color
+            currentSection.link.style.color = currentSection.color;
+        }
+    }
+
+    // Function to log and update nav
+    function updateVisibleSection() {
+        // Find which section is most visible
+        let maxVisibility = 0;
+        let mostVisibleIndex = 0;
+        
+        sections.forEach((section, index) => {
+            const rect = section.getBoundingClientRect();
+            const visibility = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+            const normalizedVisibility = visibility / Math.min(rect.height, window.innerHeight);
+            
+            if (normalizedVisibility > maxVisibility) {
+                maxVisibility = normalizedVisibility;
+                mostVisibleIndex = index;
+            }
+        });
+        
+        // Only update if the section changed and it's at least 50% visible
+        if (mostVisibleIndex !== currentVisibleSection && maxVisibility > 0.5) {
+            currentVisibleSection = mostVisibleIndex;
+            console.log(`Current section: ${sectionData[currentVisibleSection].name}`);
+            updateActiveNav(currentVisibleSection);
+        }
+    }
+
+    // Hover handlers for nav links
+    navLinks.forEach((link, index) => {
+        link.addEventListener('mouseenter', () => {
+            isHovering = true;
+            hoveredItem = link;
+            updateMagicLinePosition(link);
+        });
+        
+        link.addEventListener('mouseleave', () => {
+            isHovering = false;
+            hoveredItem = null;
+            updateMagicLinePosition(sectionData[currentVisibleSection].link);
+        });
+        
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            sections[index].scrollIntoView({ behavior: 'smooth' });
+            currentVisibleSection = index;
+            updateActiveNav(index);
+        });
+    });
+
+    // Initialize
+    initMagicLine();
+    updateActiveNav(0);
+
+    // Use Intersection Observer
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: [0.1, 0.5, 0.9]
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+                const index = Array.from(sections).indexOf(entry.target);
+                if (index !== -1 && index !== currentVisibleSection) {
+                    currentVisibleSection = index;
+                    console.log(`Current section: ${sectionData[currentVisibleSection].name}`);
+                    updateActiveNav(currentVisibleSection);
+                }
+            }
+        });
+    }, observerOptions);
+
+    // Observe all sections
+    sections.forEach(section => observer.observe(section));
+
+    // Scroll event listener
+    window.addEventListener('scroll', () => {
+        if (!window.scrollTimeout) {
+            window.scrollTimeout = setTimeout(() => {
+                window.scrollTimeout = null;
+                updateVisibleSection();
+            }, 100);
+        }
+    });
+
     // Handle resize
     window.addEventListener('resize', () => {
-        updateMagicLine(document.querySelector('.navLinks div:first-child'));
-    });
-}
+        updateMagicLinePosition(isHovering ? hoveredItem : sectionData[currentVisibleSection].link);
+    });});
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Initialize Cursor
     const circle = document.getElementById('circle');
     const interactiveElements = document.querySelectorAll('.navLinks div, .name span, .subTitle, .logo');
-    initMagicLine();
     
     // Position circle at center initially
     circle.style.transform = `translate3d(${window.innerWidth/2}px, ${window.innerHeight/2}px, 0)`;
