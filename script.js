@@ -612,3 +612,59 @@ document.addEventListener('DOMContentLoaded', () => {
     projectTiles.forEach(tile => observer.observe(tile));
 });
 
+// Add this to your script.js
+document.addEventListener('DOMContentLoaded', () => {
+    // Contact section animations
+    const contactObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Testimonials section
+                if (entry.target.classList.contains('testimonials-section')) {
+                    entry.target.classList.add('visible');
+                    entry.target.querySelector('.section-header').classList.add('visible');
+                    entry.target.querySelector('.header-decoration').classList.add('visible');
+                    
+                    const cards = entry.target.querySelectorAll('.testimonial-card');
+                    cards.forEach(card => card.classList.add('visible'));
+                }
+                
+                // Contact container
+                if (entry.target.classList.contains('contact-container')) {
+                    entry.target.classList.add('visible');
+                }
+            }
+        });
+    }, {
+        threshold: 0.2,
+        rootMargin: '0px 0px -100px 0px'
+    });
+
+    // Observe elements
+    const testimonialsSection = document.querySelector('.testimonials-section');
+    const contactContainer = document.querySelector('.contact-container');
+    
+    if (testimonialsSection) contactObserver.observe(testimonialsSection);
+    if (contactContainer) contactObserver.observe(contactContainer);
+
+    // Form input animations
+    const formGroups = document.querySelectorAll('.form-group');
+    formGroups.forEach(group => {
+        const input = group.querySelector('input, textarea');
+        const label = group.querySelector('label');
+        
+        input.addEventListener('focus', () => {
+            label.classList.add('active');
+        });
+        
+        input.addEventListener('blur', () => {
+            if (!input.value) {
+                label.classList.remove('active');
+            }
+        });
+        
+        // Check if inputs are pre-filled
+        if (input.value) {
+            label.classList.add('active');
+        }
+    });
+});
