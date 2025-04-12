@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'About',
             link: document.querySelector('.navLinks .about'),
             color: '#8b5e3c',
-            textColor: '#5a4a3b'
+            textColor: '#6f7a74'
         },
         2: { 
             name: 'Work',
@@ -529,3 +529,86 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(aboutSection);
     }
 });
+// WORK SECTION SCRIPTS
+document.addEventListener('DOMContentLoaded', function() {
+    // Make everything visible immediately
+    document.querySelectorAll('.process-card, .project-tile').forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+    });
+    
+    // Simple scroll animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, {
+        threshold: 0.2
+    });
+
+    // Observe all animated elements
+    document.querySelectorAll('.process-card, .project-tile').forEach(el => {
+        observer.observe(el);
+    });
+});
+
+// Update the JavaScript portion to properly observe the showcase-header
+document.addEventListener('DOMContentLoaded', () => {
+    const workSection = document.querySelector('.portfolio-showcase');
+    const processIntro = document.querySelector('.process-intro');
+    const showcaseHeader = document.querySelector('.showcase-header');
+    const processCards = document.querySelectorAll('.process-card');
+    const projectTiles = document.querySelectorAll('.project-tile');
+    
+    // Initialize Intersection Observer
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Process intro animation
+                if (entry.target === processIntro) {
+                    entry.target.classList.add('visible');
+                }
+                
+                // Showcase header animation (FIXED)
+                if (entry.target.classList.contains('showcase-header')) {
+                    entry.target.classList.add('visible');
+                    entry.target.querySelector('h2').classList.add('visible');
+                    entry.target.querySelector('.header-decoration').classList.add('visible');
+                }
+                
+                // Process cards animation
+                if (entry.target.classList.contains('process-card')) {
+                    entry.target.classList.add('visible');
+                }
+                
+                // Project tiles animation
+                if (entry.target.classList.contains('project-tile')) {
+                    entry.target.classList.add('visible');
+                    
+                    // Animate tech bubbles with staggered delay
+                    const bubbles = entry.target.querySelectorAll('.workBubble');
+                    bubbles.forEach((bubble, index) => {
+                        bubble.style.setProperty('--order', index);
+                    });
+                }
+            }
+        });
+    }, {
+        threshold: 0.2,
+        rootMargin: '0px 0px -100px 0px'
+    });
+
+    // Observe elements (FIXED - ensure showcase-header is properly observed)
+    if (processIntro) observer.observe(processIntro);
+    if (showcaseHeader) {
+        observer.observe(showcaseHeader);
+        // Also observe the header elements individually if needed
+        observer.observe(showcaseHeader.querySelector('h2'));
+        observer.observe(showcaseHeader.querySelector('.header-decoration'));
+    }
+    processCards.forEach(card => observer.observe(card));
+    projectTiles.forEach(tile => observer.observe(tile));
+});
+
