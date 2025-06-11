@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sneh Gohel • Projects Showcase</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Allura&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Allura&family=Caveat:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script src="https://unpkg.com/kinet@latest/dist/kinet.min.js"></script>
+</head>
+
+<body>
+    <div class="navigationBar">
+        <div class="logo">
+            <img src="assets/images/logo.png" alt="logo" draggable="false">
+        </div>
+        <div class="navLinks">
+            <div class='home'>Home</div>
+            <div class='about'>About</div>
+            <div class="work">Work</div>
+            <div class="contact">Contact</div>
+            <div class="magic-line"></div>
+            <svg class="ham hamRotate ham8 position" viewBox="0 0 100 100" width="50" onclick="this.classList.toggle('active')">
+                <path
+                    class="line top"
+                    d="m 30,33 h 40 c 3.722839,0 7.5,3.126468 7.5,8.578427 0,5.451959 -2.727029,8.421573 -7.5,8.421573 h -20" />
+                <path
+                    class="line middle"
+                    d="m 30,50 h 40" />
+                <path
+                    class="line bottom"
+                    d="m 70,67 h -40 c 0,0 -7.5,-0.802118 -7.5,-8.365747 0,-7.563629 7.5,-8.634253 7.5,-8.634253 h 20" />
+            </svg>
+        </div>
+    </div>
+
+    <section class="portfolio-showcase">
+        <div class="work-accent work-accent-1"></div>
+        <div class="work-accent work-accent-2"></div>
+        
+        <!-- Showcase Header -->
+        <div class="showcase-header">
+            <h2>All Projects</h2>
+            <div class="header-decoration"></div>
+            <div class="category-tabs">
+                <button class="category-tab active" data-category="all">All Projects</button>
+                <button class="category-tab" data-category="flutter">Flutter Apps</button>
+                <button class="category-tab" data-category="web">Websites</button>
+                <button class="category-tab" data-category="python">Python</button>
+                <button class="category-tab" data-category="ai">AI/ML</button>
+            </div>
+        </div>
+
+        <!-- Project 1 -->
+        <div class="project-tile" data-project="1" data-category="flutter">
+            <div class="project-visual">
+                <img src="assets/images/smessages.png" alt="S Messages" class="project-image">
+                <div class="tech-bubbles">
+                    <span class="workBubble">Flutter</span>
+                    <span class="workBubble">Dart</span>
+                    <span class="workBubble">Firebase</span>
+                </div>
+            </div>
+            <div class="project-details">
+                <h3>S Messages</h3>
+                <p class="project-description"><b>S Messages</b> is an <i>Android-based messaging app</i> designed with simplicity and a smooth user experience in mind. It not only allows users to send and receive messages but also introduces a <b>note-sharing feature</b> that works like a status — enabling users to express "what's on their mind" just like Instagram or WhatsApp.</p>
+                <p class="project-description">Users can also <b>upload custom statuses</b>, share ideas or thoughts as notes, and manage their online presence. The app includes <b>profile customization</b> options so each user can personalize their experience with ease.</p>
+                <p class="project-description">Its clean UI and thoughtful features make it a <i>modern and expressive platform</i> for communication beyond just chatting.</p>
+                <div class="project-links">
+                    <a href="#" class="link-button">Live Demo</a>
+                    <a href="#" class="link-button outline">View Code</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-tile" data-project="2" data-category="web">
+            <div class="project-visual">
+                <img src="assets/images/shippify.png" alt="Shippyfy" class="project-image">
+                <div class="tech-bubbles">
+                    <span class="workBubble">HTML</span>
+                    <span class="workBubble">CSS</span>
+                    <span class="workBubble">JavaScript</span>
+                    <span class="workBubble">PHP</span>
+                </div>
+            </div>
+            <div class="project-details">
+                <h3>Shippyfy</h3>
+                <p class="project-description"><b>Shippyfy</b> is a <i>comprehensive web platform</i> built to streamline the process of buying and renting containers for shipping and industrial purposes. It offers a <b>user-friendly interface</b> that allows customers to explore available container options, compare specifications, and make informed decisions effortlessly.</p>
+                <p class="project-description">Beyond functionality, Shippyfy also serves as a <b>digital brochure</b> for the company, presenting its portfolio, mission, and services in a visually engaging way. The platform combines <i>e-commerce capabilities</i> with a professional company profile to build trust and transparency.</p>
+                <p class="project-description">It's crafted to be both <b>scalable and business-ready</b>, showcasing real-world usability and attention to commercial needs.</p>
+                <div class="project-links">
+                    <a href="#" class="link-button">Live Demo</a>
+                    <a href="#" class="link-button outline">View Code</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="project-tile" data-project="3" data-category="flutter">
+            <div class="project-visual">
+                <img src="assets/images/vrs.png" alt="VRS-Vehicle Rantal System" class="project-image">
+                <div class="tech-bubbles">
+                    <span class="workBubble">Dart</span>
+                    <span class="workBubble">Flutter</span>
+                    <span class="workBubble">MySQL</span>
+                    <span class="workBubble">PHP</span>
+                </div>
+            </div>
+            <div class="project-details">
+                <h3>VRS - Vehicle Rental System</h3>
+                <p class="project-description"><b>VRS - Vehicle Rental System</b> is a <i>community-driven platform</i> that allows users to rent vehicles remotely without needing to physically visit the rental location. It simplifies the process of browsing and comparing options, making it easier to find the best match based on user preferences.</p>          
+                <p class="project-description">With built-in <b>QR code verification</b>, the platform ensures secure and authentic user interactions. It empowers users to not only rent vehicles but also <i>list their own vehicles</i> for rental and apply as drivers, creating a full-circle ecosystem.</p>              
+                <p class="project-description">Inspired by platforms like OLX, VRS is <b>made for the users and by the users</b>, bringing flexibility, convenience, and a touch of personalization to the vehicle rental industry.</p>
+                <div class="project-links">
+                    <a href="#" class="link-button">Live Demo</a>
+                    <a href="#" class="link-button outline">View Code</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project 4 -->
+        <div class="project-tile" data-project="4" data-category="python">
+            <div class="project-visual">
+                <img src="assets/images/data-analysis.png" alt="Data Analysis Tool" class="project-image">
+                <div class="tech-bubbles">
+                    <span class="workBubble">Python</span>
+                    <span class="workBubble">Pandas</span>
+                    <span class="workBubble">Matplotlib</span>
+                    <span class="workBubble">NumPy</span>
+                </div>
+            </div>
+            <div class="project-details">
+                <h3>DataViz Pro</h3>
+                <p class="project-description"><b>DataViz Pro</b> is a powerful data analysis and visualization tool built with Python. It processes large datasets, performs statistical analysis, and generates interactive visualizations to help users uncover insights from their data.</p>
+                <p class="project-description">The tool features <b>automated report generation</b>, <i>customizable dashboards</i>, and <b>machine learning integration</b> for predictive analytics. It's designed for both technical and non-technical users with an intuitive interface.</p>
+                <p class="project-description">Used by several small businesses for their analytics needs, DataViz Pro demonstrates how <i>complex data can be made accessible</i> through thoughtful design.</p>
+                <div class="project-links">
+                    <a href="#" class="link-button">Live Demo</a>
+                    <a href="#" class="link-button outline">View Code</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project 5 -->
+        <div class="project-tile" data-project="5" data-category="ai">
+            <div class="project-visual">
+                <img src="assets/images/image-recognition.png" alt="Image Recognition" class="project-image">
+                <div class="tech-bubbles">
+                    <span class="workBubble">Python</span>
+                    <span class="workBubble">TensorFlow</span>
+                    <span class="workBubble">OpenCV</span>
+                </div>
+            </div>
+            <div class="project-details">
+                <h3>ArtVision AI</h3>
+                <p class="project-description"><b>ArtVision AI</b> is an image recognition system that can identify and classify artwork styles, artists, and historical periods. It uses deep learning to analyze visual patterns and provide contextual information about artworks.</p>
+                <p class="project-description">The system achieves <b>92% accuracy</b> on major art movements and can <i>recognize over 200 famous artists' styles</i>. It's particularly useful for art students, collectors, and museums for authentication and educational purposes.</p>
+                <p class="project-description">What sets ArtVision apart is its <b>explainability feature</b> that highlights which visual elements contributed to its classification decisions.</p>
+                <div class="project-links">
+                    <a href="#" class="link-button">Live Demo</a>
+                    <a href="#" class="link-button outline">View Code</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exciting Ending Section -->
+        <div class="cta-section">
+            <div class="cta-content">
+                <h2>Want to see more of my work?</h2>
+                <p>I'm constantly working on new projects and improving my skills. If you'd like to discuss a project or see more examples of my work, feel free to reach out!</p>
+                <div class="cta-buttons">
+                    <a href="index.html#contact" class="link-button">Contact Me</a>
+                    <a href="index.html#work" class="link-button outline">Back to Main Portfolio</a>
+                </div>
+            </div>
+            <div class="cta-decoration">
+                <div class="floating-shape shape-1"></div>
+                <div class="floating-shape shape-2"></div>
+                <div class="floating-shape shape-3"></div>
+            </div>
+        </div>
+    </section>
+
+    <div id="circle" class="circle"></div>
+    <script src="script.js"></script>
+    <script>
+        // Initialize navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation functionality
+            const navLinks = document.querySelectorAll('.navLinks div');
+            const magicLine = document.querySelector('#magic-line');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.classList.contains('home') ? 'home' : 
+                                    this.classList.contains('about') ? 'about' :
+                                    this.classList.contains('work') ? 'work' :
+                                    this.classList.contains('contact') ? 'contact' : '';
+                    
+                    if (targetId) {
+                        window.location.href = `index.html#${targetId}`;
+                    }
+                });
+            });
+
+            // Category filtering
+            const tabs = document.querySelectorAll('.category-tab');
+            const projects = document.querySelectorAll('.project-tile');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const category = this.dataset.category;
+                    
+                    projects.forEach(project => {
+                        if (category === 'all' || project.dataset.category === category) {
+                            project.style.display = 'grid';
+                        } else {
+                            project.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Initialize animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.project-tile, .showcase-header, .cta-section').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,3 +1,5 @@
+
+document.querySelector('.viewMore a').href = 'projects.html';
 document.addEventListener('DOMContentLoaded', () => {
     // Get all sections and nav links
     const sections = document.querySelectorAll('section');

@@ -157,7 +157,14 @@ body{
     animation: fadeInAndComingFromUp 0.7s ease forwards; /* Animation for fading in and coming from the top */
     animation-delay: 1.4s; /* Your timing preserved */
     height: 100px;
+    background: linear-gradient(to bottom, #c6bda6, rgba(255, 0, 0, 0));
+    backdrop-filter: blur(5px);
+
+    /* Add these two lines for a smooth bottom edge */
+    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 }
+
 
 @keyframes fadeInAndComingFromUp {
     from {
@@ -1756,6 +1763,126 @@ body{
 .visible {
     opacity: 1 !important;
     transform: translateY(0) !important;
+}
+
+@keyframes float {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(-50px, -50px) rotate(5deg); }
+    100% { transform: translate(50px, 50px) rotate(-5deg); }
+}
+
+/* Projects Page Specific Styles (Maintaining Original Work Section Style) */
+.category-tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 40px auto;
+    max-width: 800px;
+}
+
+.category-tab {
+    padding: 10px 25px;
+    background: transparent;
+    border: 1px solid #8b5e3c;
+    border-radius: 30px;
+    color: #8b5e3c;
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.category-tab.active {
+    background: linear-gradient(to right, #8b5e3c, #6f7a74);
+    color: #f1efe6;
+    border-color: transparent;
+}
+
+.category-tab:hover {
+    background: rgba(139, 94, 60, 0.1);
+}
+
+/* Exciting Ending Section */
+.cta-section {
+    position: relative;
+    max-width: 1200px;
+    margin: 100px auto;
+    padding: 60px 40px;
+    background: rgba(241, 239, 230, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(90, 74, 59, 0.15);
+    overflow: hidden;
+    text-align: center;
+    z-index: 2;
+}
+
+.cta-content h2 {
+    font-family: "Roboto Slab", serif;
+    font-size: 2.5rem;
+    color: #5a4a3b;
+    margin-bottom: 20px;
+}
+
+.cta-content p {
+    font-family: "Inter", sans-serif;
+    color: #5a4a3b;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto 30px;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.cta-decoration {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.floating-shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.15;
+}
+
+.shape-1 {
+    width: 300px;
+    height: 300px;
+    background: #8b5e3c;
+    top: -100px;
+    right: -100px;
+    animation: float 25s ease-in-out infinite alternate;
+}
+
+.shape-2 {
+    width: 200px;
+    height: 200px;
+    background: #6f7a74;
+    bottom: -50px;
+    left: -50px;
+    animation: float 20s ease-in-out infinite alternate-reverse;
+}
+
+.shape-3 {
+    width: 150px;
+    height: 150px;
+    background: #ae6d4f;
+    top: 50%;
+    left: 50%;
+    animation: float 15s ease-in-out infinite;
 }
 
 @keyframes float {
